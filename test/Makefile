@@ -68,4 +68,4 @@ $(ROOT_OBJ_DIR):
 clean:
 	@$(RM) -rv $(BUILD_ROOT)
 
--include $(OBJ:.o=.d)
+-include $(ROOT_OBJ:.o=.d)
