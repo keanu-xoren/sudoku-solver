@@ -41,14 +41,16 @@ all: $(EXE)
 
 dbg: $(DBG_EXE)
 
+# main target
 $(EXE): $(OBJ) | $(BIN_DIR)
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-$(DBG_EXE): $(DBG_OBJ) | $(BIN_DIR)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
-	
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	
+# debug main target
+$(DBG_EXE): $(DBG_OBJ) | $(BIN_DIR)
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(DBG_DIR)/%.o: $(SRC_DIR)/%.cpp | $(DBG_DIR)
 	$(CXX) $(CPPFLAGS_DBG) $(CXXFLAGS_DBG) -c $< -o $@
