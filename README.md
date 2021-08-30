@@ -8,23 +8,25 @@ C++ project to solve a Sudoku puzzle.
 
     class Cell {};
 
-## Cell Groups ##
+### Possibility ###
 
-    class CellGrouping {};
+    class Possibility {};
+
+## Sections ##
+
+    class Section {};
 
 ### Rows & Columns ###
 
-    class CellArray: public CellGrouping {};
+    class ArraySection: public Section {};
 
 ### Squares ###
 
-    class CellSquare: public CellGrouping {};
+    class SquareSection: public Section {};
 
 ## Board ##
 
     class Board {};
-
-# Testing #
 
 # Personal Goals #
 1. Brush up on C++ & Makefiles
