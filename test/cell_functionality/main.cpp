@@ -1,15 +1,16 @@
+#ifndef CELL_H
+#define CELL_H
 #include <Cell.h>
+#endif // CELL_H
 #include <assert.h>
 #include <iostream>
 
 int main(int argc, char* argv[]) {
 
 
-    // Cell::Cell
-    Cell null_cell;
-    Cell my_cell(4);
+    // Given Cells
+    GivenCell my_cell(4);
 
-    assert(!null_cell.get_value());
     assert(my_cell.get_value() == 4);
 
 
