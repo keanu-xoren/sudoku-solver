@@ -28,7 +28,7 @@ TEST_SRC 	:= $(wildcard */main.cpp)
 BUILD_ROOT	:= build
 ROOT_OBJ_DIR:= $(BUILD_ROOT)/common
 
-ALL_TESTS	:= $(filter-out Makefile build, $(ALL_TESTS))
+ALL_TESTS	:= $(filter-out Makefile build README.md, $(ALL_TESTS))
 
 TEST_SRC	:= $(addsuffix /main.cpp, $(ALL_TESTS))
 TEST_BUILD	:= $(addprefix $(BUILD_ROOT)/, $(ALL_TESTS))

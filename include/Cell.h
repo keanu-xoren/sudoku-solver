@@ -25,11 +25,13 @@ public:
 class UnknownCell : public Cell {
 
 protected:
-    Possibility *_possibilePtr;
+    Possibility *_pPossibles;
 
 public:
-
+    UnknownCell();
     void add_possibility(unsigned int);
+    void remove_possibility(unsigned int);
+    unsigned int * get_possibilities();
     // /*
     //     reduce_possible_values()
     //     Inputs:
@@ -56,17 +58,18 @@ protected:
     unsigned int _value;
 
 public:
+    KnownCell(unsigned int);
     unsigned int get_value();
 };
 
 class GivenCell : public KnownCell {
 
 public:
-    GivenCell(unsigned int);
+    using KnownCell::KnownCell;
 };
 
 class SolvedCell : public KnownCell {
 
 public:
-    SolvedCell(unsigned int);
+    using KnownCell::KnownCell;
 };
