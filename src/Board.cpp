@@ -13,9 +13,9 @@ Board::Board(std::string filename) {
 
     std::string line;
 
-    _rows = new CellArray*[9];
-    _columns = new CellArray*[9];
-    _squares = new CellSquare*[9];
+    _rows = new ArraySection*[9];
+    _columns = new ArraySection*[9];
+    _squares = new SquareSection*[9];
 
     while (getline(inFile, line)) {
         //TODO populate contents from a file
