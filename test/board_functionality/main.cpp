@@ -17,6 +17,7 @@ int main(int argc, char* argv[]) {
 
     Board easyPuzzle = Board(puzzleName);
 
+    easyPuzzle.print();
 
     std::cout << "All tests passed!!!" << std::endl;
     return 0;

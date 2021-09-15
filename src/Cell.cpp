@@ -20,9 +20,22 @@ KnownCell::KnownCell(unsigned int inVal) {
     _value = inVal;
 }
 
-/*  *****************
+/*  ***********
+    Destructors
+    *********** */
+UnknownCell::~UnknownCell() {
+    
+    Possibility *next;
+    while (_pPossibles) {
+        next = _pPossibles->_pNext;
+        delete _pPossibles;
+        _pPossibles = next;
+    }
+    _pPossibles = next = nullptr;
+}
+/*  *******************
     UnknownCell methods
-    ***************** */
+    ******************* */
 void UnknownCell::add_possibility(unsigned int inVal) {
 
     if (!_pPossibles) { 
@@ -84,7 +97,7 @@ unsigned int* UnknownCell::get_possibilities() {
 #ifdef CONFIG_DEBUG
 
 void UnknownCell::print() {
-    std::cout << '-';
+    std::cout << ' ';
 }
 
 #endif //CONFIG_DEBUG

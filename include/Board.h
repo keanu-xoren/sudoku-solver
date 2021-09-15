@@ -1,7 +1,8 @@
-#ifndef SECTION_H
-#define SECTION_H
-#include <Section.h>
-#endif // SECTION_H
+#ifndef CELL_H
+#define CELL_H
+#include <Cell.h>
+#endif // CELL_H
+
 
 #ifndef CPPSTRING_H
 #define CPPSTRING_H
@@ -11,14 +12,15 @@
 class Board {
 
 private:
-    ArraySection  _rows[9];
-    ArraySection  _columns[9];
-    SquareSection _squares[9];
+    Cell *_cells[9][9];
+    unsigned int _filled[3][9];
 
 public:
     Board(std::string);
 
     ~Board();
+
+    unsigned int at(unsigned int, unsigned int);
 
     void solve();
 

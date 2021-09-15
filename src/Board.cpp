@@ -1,22 +1,24 @@
-
 #ifndef BOARD_H
 #define BOARD_H
 #include <Board.h>
 #endif // BOARD_H
 
-#ifndef CELL_H
-#define CELL_H
-#include <Cell.h>
+#ifndef ENCODINGS_H
+#define ENCODINGS_H
+#include <Encodings.h>
+#endif // ENCODINGS_H
+
+#ifdef CONFIG_DEBUG
+#include <iostream>
 #endif
 
 #include <fstream>
 #include <sstream>
 #include <queue>
-#include <iostream>
 
-#ifdef CONFIG_DEBUG
-#include <iostream>
-#endif
+#define FILLED_ROW 0
+#define FILLED_COL 1
+#define FILLED_SQR 2
 
 unsigned int get_square_index(unsigned int row, unsigned int col) {
 
@@ -38,8 +40,6 @@ unsigned int get_square_index(unsigned int row, unsigned int col) {
 
 
     */
-
-
     return row + (col / 3) - (row % 3);
 }
 
@@ -53,9 +53,13 @@ Board::Board(std::string filename) {
         exit(1);
     }
 
+    for (unsigned int i = 0; i < 9; i++) {
+        _filled[FILLED_ROW][i] = _filled[FILLED_COL][i] = _filled[FILLED_SQR][i] = 0;
+    }
+
     Cell *pCell;
     unsigned int rowIndex, colIndex;
-    unsigned int cellValue;
+    unsigned int cellValue, cellValueBin;
     rowIndex = 0;
 
     for (rowIndex = 0; rowIndex < 9; rowIndex++) {
@@ -68,39 +72,20 @@ Board::Board(std::string filename) {
         for (colIndex = 0; colIndex < 9; colIndex++) {
             iss >> cellValue;
 
-#ifdef CONFIG_DEBUG
-            std::cout << "Creating new cell with value " << cellValue << '\n';
-#endif // CONFIG_DEBUG
-
             if (!cellValue) {
                 pCell = new EmptyCell;
             }
             else {
                 pCell = new GivenCell(cellValue);
+
+                cellValueBin = (1 << (cellValue - 1));
+
+                _filled[FILLED_ROW][rowIndex] |= cellValueBin;
+                _filled[FILLED_COL][colIndex] |= cellValueBin;
+                _filled[FILLED_SQR][get_square_index(rowIndex, colIndex)] |= cellValueBin;
             }
 
-#ifdef CONFIG_DEBUG
-            std::cout << "\tstoring at mem[ " << pCell << " ]\n";
-#endif // CONFIG_DEBUG
-
-
-            _rows[rowIndex].add_cell(pCell);
-#ifdef CONFIG_DEBUG
-            std::cout << "Added new cell to row " << rowIndex << std::endl;
-#endif // CONFIG_DEBUG
-
-
-            _columns[colIndex].add_cell(pCell);
-#ifdef CONFIG_DEBUG
-            std::cout << "Added new cell to column " << colIndex << std::endl;
-#endif // CONFIG_DEBUG
-
-
-
-            _squares[get_square_index(rowIndex, colIndex)].add_cell(pCell);
-#ifdef CONFIG_DEBUG
-            std::cout << "Added new cell to square " << get_square_index(rowIndex, colIndex) << std::endl;
-#endif // CONFIG_DEBUG
+            _cells[rowIndex][colIndex] = pCell;
         }
     }
 
@@ -109,6 +94,13 @@ Board::Board(std::string filename) {
 }
 
 Board::~Board() {
+
+    for (unsigned int i = 0; i < 9; i++) {
+        for (unsigned int j = 0; j < 9; j++) {
+            delete _cells[i][j];
+            _cells[i][j] = nullptr;
+        }
+    }
 
 }
 
@@ -119,12 +111,26 @@ void Board::solve() {
 
 
 #ifdef CONFIG_DEBUG
-#include <iostream>
 void Board::print() {
 
+    std::string horizontal = "-----";
+
     for (unsigned int i = 0; i < 9; i++) {
-        _rows[i].print();
-        std::cout << "\n";
+        for (unsigned int j = 0; j < 9; j++) {
+            _cells[i][j]->print();
+            
+            if (j == 2 || j == 5) {
+                std::cout << '|';
+            }
+            else {
+                std::cout << ' ';
+            }
+            
+        }
+        std::cout << std::endl;
+        if (i == 2 || i == 5) {
+            std::cout << horizontal << "|" << horizontal << "|" << horizontal << "\n";
+        }
     }
 
     std::cout << std::endl;

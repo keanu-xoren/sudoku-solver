@@ -19,6 +19,9 @@
 class Cell {
 
 public:
+
+    virtual ~Cell() {};
+
 #ifdef CONFIG_DEBUG
 
     virtual void print() = 0;
@@ -34,6 +37,7 @@ protected:
 
 public:
     UnknownCell();
+    ~UnknownCell();
     void add_possibility(unsigned int);
     void remove_possibility(unsigned int);
     unsigned int * get_possibilities();
@@ -56,7 +60,6 @@ public:
 };
 
 class EmptyCell : public UnknownCell {
-
 };
 
 class GuessedCell : public UnknownCell {

@@ -1,4 +1,17 @@
 /////////////////////////////
+//     VALUE ENCODINGS     //
+/////////////////////////////
+#define ONE   0x001
+#define TWO   0x002
+#define THREE 0x004
+#define FOUR  0x008
+#define FIVE  0x010
+#define SIX   0x020
+#define SEVEN 0x040
+#define EIGHT 0x080
+#define NINE  0x100
+
+/////////////////////////////
 //  POSSIBILITY ENCODINGS  //
 /////////////////////////////
 // possibility pairing
