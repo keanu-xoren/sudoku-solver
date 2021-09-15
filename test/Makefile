@@ -41,7 +41,7 @@ ROOT_OBJ 	:= $(ROOT_SRC:$(ROOT_SRC_DIR)/%.cpp=$(ROOT_OBJ_DIR)/%.o)
 #TEST_OBJ	:= $(TEST_SRC:%/main.cpp=build/%/build/main.o)
 
 # flag settings
-CPPFLAGS	:= -I$(ROOT_INC_DIR) -DDEBUG -DTEST_CONFIG
+CPPFLAGS	:= -I$(ROOT_INC_DIR) -DCONFIG_DEBUG -DCONFIG_TEST
 CXXFLAGS	:= -std=c++14 -Wall -Werror -Wno-missing-braces -O0 -g 
 LDFLAGS		:= -L$(ROOT_INC_DIR)
 LDLIBS		:=

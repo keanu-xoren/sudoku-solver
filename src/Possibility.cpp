@@ -48,7 +48,7 @@ void Possibility::push(unsigned int inVal) {
     ptr->_pNext->_pPrev = ptr;
 }
 
-#ifdef TEST_CONFIG
+#ifdef CONFIG_TEST
 unsigned int Possibility::get_value() {
 
     return _value;
@@ -64,4 +64,4 @@ Possibility* Possibility::prev() {
     return _pPrev;
 }
 
-#endif // TEST_CONFIG
+#endif // CONFIG_TEST

@@ -29,7 +29,7 @@ DBG_OBJ 	:= $(SRC:$(SRC_DIR)/%.cpp=$(DBG_DIR)/%.o)
 
 # flag settings
 CPPFLAGS	:= -I$(INC_DIR)
-CPPFLAGS_DBG:= -I$(INC_DIR) -DDEBUG
+CPPFLAGS_DBG:= -I$(INC_DIR) -DCONFIG_DEBUG
 CXXFLAGS	:= -std=c++14 -Wall -Werror -Wno-missing-braces -O3
 CXXFLAGS_DBG:= -std=c++14 -Wall -Werror -Wno-missing-braces -O0 -g 
 LDFLAGS		:= -L$(INC_DIR)

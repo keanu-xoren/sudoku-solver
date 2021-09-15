@@ -19,6 +19,11 @@
 class Cell {
 
 public:
+#ifdef CONFIG_DEBUG
+
+    virtual void print() = 0;
+
+#endif //CONFIG_DEBUG
     
 };
 
@@ -42,6 +47,12 @@ public:
     // */
     // void reduce_possible_values(unsigned int);
 
+#ifdef CONFIG_DEBUG
+
+    void print();
+
+#endif //CONFIG_DEBUG
+
 };
 
 class EmptyCell : public UnknownCell {
@@ -52,7 +63,7 @@ class GuessedCell : public UnknownCell {
     //unsigned int _value;
 };
 
-class KnownCell : private Cell {
+class KnownCell : public Cell {
 
 protected:
     unsigned int _value;
@@ -60,6 +71,11 @@ protected:
 public:
     KnownCell(unsigned int);
     unsigned int get_value();
+#ifdef CONFIG_DEBUG
+
+    void print();
+
+#endif //CONFIG_DEBUG
 };
 
 class GivenCell : public KnownCell {

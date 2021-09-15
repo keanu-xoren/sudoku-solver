@@ -13,14 +13,25 @@
 class Section {
 
 protected:
-    Cell *cells[9];
+    Cell *_pCells[9];
     int _filledValues;
 
     void reduce_possibilities(Section*, Section*);
 
 public:
 
-    virtual void solve();
+    Section();
+    ~Section();
+
+    void add_cell(Cell*);
+
+    //virtual void solve();
+
+#ifdef CONFIG_DEBUG
+
+    void print();
+
+#endif //CONFIG_DEBUG
 };
 
 /* Class: ArraySection

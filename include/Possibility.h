@@ -16,11 +16,11 @@ public:
 
     void push(unsigned int);
 
-#ifdef TEST_CONFIG 
+#ifdef CONFIG_TEST 
     // following methods are only for functionality testing
     unsigned int get_value();
 
     Possibility* next();
     Possibility* prev();
-#endif // TEST_CONFIG
+#endif // CONFIG_TEST
 };

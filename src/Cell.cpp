@@ -3,6 +3,12 @@
 #include <Cell.h>
 #endif
 
+#ifdef CONFIG_DEBUG
+
+#include <iostream>
+
+#endif //CONFIG_DEBUG
+
 /*  ************
     Constructors
     ************ */
@@ -75,9 +81,25 @@ unsigned int* UnknownCell::get_possibilities() {
     return values;
 }
 
+#ifdef CONFIG_DEBUG
+
+void UnknownCell::print() {
+    std::cout << '-';
+}
+
+#endif //CONFIG_DEBUG
+
 /*  *****************
     KnownCell methods
     ***************** */
 unsigned int KnownCell::get_value() {
     return _value;
 }
+
+#ifdef CONFIG_DEBUG
+
+void KnownCell::print() {
+    std::cout << _value;
+}
+
+#endif //CONFIG_DEBUG
