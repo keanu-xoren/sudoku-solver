@@ -1,17 +1,13 @@
 #include <assert.h>
 #include <iostream>
-
-#ifndef POSSIBILITY_H
-#define POSSIBILITY_H
 #include <Possibility.h>
-#endif // POSSIBILITY_H
 
 int main(int argc, char* argv[]) {
 
-#ifndef DEBUG
+#ifndef CONFIG_DEBUG
     std::cerr << "DEBUG compiler flag not set. Test will not function properly" << std::endl;
     assert(false);
-#endif // DEBUG
+#endif // CONFIG_DEBUG
 
     Possibility *ptr = new Possibility(1);
     Possibility *other;

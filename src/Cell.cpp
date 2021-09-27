@@ -1,41 +1,59 @@
-#ifndef CELL_H
-#define CELL_H
 #include <Cell.h>
-#endif
+#include <Encodings.h>
 
 #ifdef CONFIG_DEBUG
-
 #include <iostream>
-
-#endif //CONFIG_DEBUG
+#endif // CONFIG_DEBUG
 
 /*  ************
     Constructors
     ************ */
-UnknownCell::UnknownCell() {
-    _pPossibles = nullptr;
+UnknownCell::UnknownCell() : _pPossibles(nullptr),  _solved(false) {
+    _value = 0;
 }
 
-KnownCell::KnownCell(unsigned int inVal) {
+KnownCell::KnownCell(unsigned int inVal) { 
     _value = inVal;
 }
 
 /*  ***********
     Destructors
     *********** */
-UnknownCell::~UnknownCell() {
-    
+void delete_possibilities(Possibility *head) {
     Possibility *next;
-    while (_pPossibles) {
-        next = _pPossibles->_pNext;
-        delete _pPossibles;
-        _pPossibles = next;
+
+    while (head) {
+        next = head->_pNext;
+        delete head;
+        head = next;
     }
-    _pPossibles = next = nullptr;
+    head = next = nullptr;
 }
+
+UnknownCell::~UnknownCell() {
+
+    delete_possibilities(_pPossibles);
+    _pPossibles = nullptr;
+}
+
 /*  *******************
     UnknownCell methods
     ******************* */
+
+unsigned int UnknownCell::initialize_possibilities(unsigned int possibleCode) {
+
+    unsigned int numPossibles = 0;
+
+    for (unsigned int i = 0; i < 9; i++) {
+        if (possibleCode & (1 << i)) {
+            add_possibility(i + 1);
+            numPossibles++;
+        }
+    }
+
+    return numPossibles;
+}
+
 void UnknownCell::add_possibility(unsigned int inVal) {
 
     if (!_pPossibles) { 
@@ -64,6 +82,7 @@ void UnknownCell::remove_possibility(unsigned int toRemove) {
 
         pPoss->_pNext = nullptr;
         delete pPoss;
+        pPoss = nullptr;
         return;
     }
 
@@ -71,11 +90,11 @@ void UnknownCell::remove_possibility(unsigned int toRemove) {
     while (pPoss) {
         if (pPoss->_value == toRemove) {
             delete pPoss;
+            pPoss = nullptr;
+            return;
         }
         pPoss = pPoss->_pNext;
     }
-
-
 }
 
 unsigned int* UnknownCell::get_possibilities() {
@@ -94,8 +113,22 @@ unsigned int* UnknownCell::get_possibilities() {
     return values;
 }
 
-#ifdef CONFIG_DEBUG
+bool UnknownCell::initialized_possibilities() {
 
+    return _pPossibles == nullptr;
+}
+
+void UnknownCell::remove_current_possibility() {
+
+#ifdef CONFIG_DEBUG
+    std::cerr << "ERROR: Cannot remove possibilities from an EmptyCell" << std::endl; 
+#endif // CONFIG_DEBUG
+
+    exit(1);
+}
+
+
+#ifdef CONFIG_DEBUG
 void UnknownCell::print() {
     std::cout << ' ';
 }
@@ -105,14 +138,18 @@ void UnknownCell::print() {
 /*  *****************
     KnownCell methods
     ***************** */
-unsigned int KnownCell::get_value() {
-    return _value;
+
+void KnownCell::remove_current_possibility() {
+
+#ifdef CONFIG_DEBUG
+    std::cerr << "ERROR: Cannot remove possibilities from a KnownCell" << std::endl; 
+#endif // CONFIG_DEBUG
+
+    exit(1);
 }
 
 #ifdef CONFIG_DEBUG
-
 void KnownCell::print() {
     std::cout << _value;
 }
-
 #endif //CONFIG_DEBUG

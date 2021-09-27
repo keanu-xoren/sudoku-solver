@@ -1,10 +1,6 @@
 #include <assert.h>
 #include <iostream>
-
-#ifndef CELL_H
-#define CELL_H
 #include <Cell.h>
-#endif // CELL_H
 
 #define MAX_SIZE 9
 
@@ -13,7 +9,7 @@ int main(int argc, char* argv[]) {
 
 
     // Given Cells
-    GivenCell my_cell(4);
+    KnownCell my_cell(4);
 
     assert(my_cell.get_value() == 4);
 
