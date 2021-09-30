@@ -24,30 +24,23 @@ protected:
 public:
     virtual ~Cell() {};
 
-    // inherited methods
+    // inheritable methods
     unsigned int get_value();
 
     // pure virtual methods
     virtual bool solved() = 0;
     virtual bool initialized() = 0;
-    virtual unsigned int initialize_possibilities(unsigned int) = 0;
-    virtual unsigned int reduce_possibilities(unsigned int) = 0;
+    virtual void initialize_possibilities(unsigned int) = 0;
+    virtual void reduce_possibilities(unsigned int) = 0;
     virtual void remove_current_possibility() = 0;
-    
-
-    
-
 
     // operator overloads
     virtual bool operator==(const Cell&);
 
-
-
-
 #ifdef CONFIG_DEBUG
     // debug methods 
     virtual void print() = 0;
-#endif //CONFIG_DEBUG    
+#endif // CONFIG_DEBUG    
 };
 
 /*  **********************************
@@ -62,10 +55,9 @@ class UnknownCell : public Cell {
     Possibility *_pPossibles;
     bool _solved;
 
+
     void add_possibility(unsigned int);
     void remove_possibility(unsigned int);
-
-
 
 public:
     UnknownCell();
@@ -74,8 +66,8 @@ public:
     bool initialized();
     bool solved();
 
-    unsigned int initialize_possibilities(unsigned int);
-    unsigned int reduce_possibilities(unsigned int);
+    void initialize_possibilities(unsigned int);
+    void reduce_possibilities(unsigned int);
     void remove_current_possibility();
 
 #ifdef CONFIG_DEBUG
@@ -83,7 +75,6 @@ public:
 #endif //CONFIG_DEBUG
 
 #ifdef CONFIG_TEST
-
     unsigned int * get_possibilities();
 #endif
 };
@@ -97,14 +88,16 @@ public:
     ********************************** */
 class KnownCell : public Cell {
 
+    void bad_access();
+
 public:
     KnownCell(unsigned int);
 
     bool solved();
     bool initialized();
 
-    unsigned int initialize_possibilities(unsigned int);
-    unsigned int reduce_possibilities(unsigned int);
+    void initialize_possibilities(unsigned int);
+    void reduce_possibilities(unsigned int);
     void remove_current_possibility();
 
 #ifdef CONFIG_DEBUG

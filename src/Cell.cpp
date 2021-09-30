@@ -1,5 +1,6 @@
 #include <Cell.h>
 #include <Encodings.h>
+#include <assert.h>
 
 #ifdef CONFIG_DEBUG
 #include <iostream>
@@ -47,7 +48,7 @@ bool Cell::operator==(const Cell& other) {
 void UnknownCell::add_possibility(unsigned int inVal) {
 
     if (!_pPossibles) { 
-        _pPossibles = new Possibility(inVal);
+        _pPossibles = new Possibility(inVal, false);
         return;
     }
     
@@ -62,32 +63,12 @@ void UnknownCell::remove_possibility(unsigned int toRemove) {
         return;
     }
     
-    Possibility *pPoss;
-    pPoss = _pPossibles;
-
-    // reassign head, if necessary
-    if (_pPossibles->_value == toRemove) {
-        
-        _pPossibles = _pPossibles->_pNext;
-
-        pPoss->_pNext = nullptr;
-        delete pPoss;
-        pPoss = nullptr;
-        return;
-    }
-
-    // otherwise, delete specific node
-    while (pPoss) {
-        if (pPoss->_value == toRemove) {
-            delete pPoss;
-            pPoss = nullptr;
-            return;
-        }
-        pPoss = pPoss->_pNext;
-    }
+    _pPossibles = _pPossibles->remove(toRemove);
 }
 
-
+void KnownCell::bad_access() {
+    assert(0);
+}
 
 /*  **************
     public methods
@@ -101,7 +82,7 @@ bool KnownCell::initialized() { return true; }
 bool UnknownCell::solved() { return _solved; }
 bool KnownCell::solved() { return true; }
 
-unsigned int UnknownCell::initialize_possibilities(unsigned int code) {
+void UnknownCell::initialize_possibilities(unsigned int code) {
 
     unsigned int i = 0;
     while (code >> i) {
@@ -110,15 +91,13 @@ unsigned int UnknownCell::initialize_possibilities(unsigned int code) {
         }
         i++;
     }
-    
-    return 1000;
 }
 
-unsigned int KnownCell::initialize_possibilities(unsigned int) {
-    return 1000;
+void KnownCell::initialize_possibilities(unsigned int) {
+    return bad_access();
 }
 
-unsigned int UnknownCell::reduce_possibilities(unsigned int code) {
+void UnknownCell::reduce_possibilities(unsigned int code) {
 
     unsigned int i = 0;
     while (code >> i) {
@@ -127,13 +106,10 @@ unsigned int UnknownCell::reduce_possibilities(unsigned int code) {
         }
         i++;
     }
-    
-    return 1000;
-
 }
 
-unsigned int KnownCell::reduce_possibilities(unsigned int code) {
-    return 1000;
+void KnownCell::reduce_possibilities(unsigned int code) {
+    return bad_access();
 }
 
 void UnknownCell::remove_current_possibility() {
@@ -143,7 +119,7 @@ void UnknownCell::remove_current_possibility() {
 
 void KnownCell::remove_current_possibility() {
 
-    return;
+    bad_access();
 }
 
 /*  ********************
@@ -160,9 +136,9 @@ void KnownCell::print() {
 
 #endif // CONFIG_DEBUG
 
-/*  ********************
+/*  *******************
     CONFIG_TEST methods
-    ******************** */
+    ******************* */
 #ifdef CONFIG_TEST
 unsigned int* UnknownCell::get_possibilities() {
 
@@ -172,7 +148,7 @@ unsigned int* UnknownCell::get_possibilities() {
     unsigned int i = 0;
     while (ptr) {
 
-        values[i] = ptr->_value;
+        values[i] = ptr->_encoding.value;
         i++;
         ptr = ptr->_pNext;
     }
