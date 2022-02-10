@@ -5,8 +5,8 @@
 
 int main(int argc, char* argv[]) {
 
-    std::string puzzleName = "../samples/easy_sample.txt";
-    std::string solutionName = "../samples/easy_sample.solved";
+    std::string puzzleName = "../samples/hard_sample.txt";
+    std::string solutionName = "../samples/hard_sample.solved";
 
     Board puzzle(puzzleName);
     Board solution(solutionName);
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     puzzle.print();
     solution.print();
 
-    puzzle.solve(10);
+    puzzle.solve();
 
     assert(solution == puzzle);
 

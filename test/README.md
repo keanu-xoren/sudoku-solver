@@ -1,7 +1,7 @@
 # Unit Test Overview #
 
-## *classname*_functionality ##
-Sanity validation for class constructors, destructors, and methods.
+## board_functionality ##
+Sanity validation for board constructors, destructors, and simple public methods.
 
-## brute force ##
-Tests the brute force algorithm.
+## solve_dfs ##
+Tests the depth-first search solving algorithm.
